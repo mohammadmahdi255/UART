@@ -19,62 +19,68 @@ architecture RTL of Clock_Generation_Logic is
 
 	constant c_ZERO   : std_logic_vector(15 downto 0) := (others => '0');
 
-	signal r_RE_COUNT : std_logic_vector(15 downto 0) := (others => '0');
-	signal r_FE_COUNT : std_logic_vector(15 downto 0) := (others => '0');
 	signal r_RE_CLEAR : std_logic                     := '0';
 	signal r_FE_CLEAR : std_logic                     := '0';
-	signal w_TOGGLE   : std_logic                     := '0';
-	signal r_UCLKS    : std_logic_vector(4 downto 0)  := (others => '0');
+	
+	signal r_RE_UCKLS : std_logic_vector(4 downto 0)  := (others => '0');
+	signal r_FE_UCKLS : std_logic_vector(4 downto 0)  := (others => '0');
+	
+	signal w_UCLKS    : std_logic_vector(2 downto 0)  := (others => '0');
 
 begin
 
 	Clock_Logic : process (i_EN, i_CLK)
+		variable v_RE_COUNT : std_logic_vector(15 downto 0) := (others => '0');
+		variable v_FE_COUNT : std_logic_vector(15 downto 0) := (others => '0');
 	begin
 		if i_EN = '0' then
-			r_RE_COUNT <= c_ZERO;
-			r_FE_COUNT <= c_ZERO;
+			v_RE_COUNT := c_ZERO;
+			v_FE_COUNT := c_ZERO;
+			r_RE_UCKLS <= (others => '0');
+			r_FE_UCKLS <= (others => '0');
 		else
 			if rising_edge(i_CLK) then
-				r_RE_COUNT <= r_RE_COUNT + 1;
 				r_FE_CLEAR <= '0';
 				if r_RE_CLEAR = '1' then
-					r_RE_COUNT <= c_ZERO + 1;
+					v_RE_COUNT := c_ZERO;
 				end if;
-				if r_RE_COUNT + r_FE_COUNT = i_UCD then
-					r_FE_CLEAR <= '1' xor r_FE_CLEAR;
-					r_RE_COUNT <= c_ZERO;
+				if v_RE_COUNT + v_FE_COUNT = i_UCD then
+					r_RE_UCKLS <= r_RE_UCKLS + 1;
+					r_FE_CLEAR <= '1';
+					v_RE_COUNT := c_ZERO;
+				else
+					v_RE_COUNT := v_RE_COUNT + 1;
 				end if;
+				
 			end if;
 
 			if falling_edge(i_CLK) then
-				r_FE_COUNT <= r_FE_COUNT + 1;
 				r_RE_CLEAR <= '0';
 				if r_FE_CLEAR = '1' then
-					r_FE_COUNT <= c_ZERO + 1;
+					v_FE_COUNT := c_ZERO;
 				end if;
-				if r_RE_COUNT + r_FE_COUNT = i_UCD then
-					r_RE_CLEAR <= '1' xor r_RE_CLEAR;
-					r_FE_COUNT <= c_ZERO;
+				if v_RE_COUNT + v_FE_COUNT = i_UCD then
+					r_FE_UCKLS <= r_FE_UCKLS + 1;
+					r_RE_CLEAR <= '1';
+					v_FE_COUNT := c_ZERO;
+				else
+					v_FE_COUNT := v_FE_COUNT + 1;
 				end if;
 			end if;
 		end if;
 	end process Clock_Logic;
+	
+	process(r_RE_UCKLS, r_FE_UCKLS)
+        variable v_SUM : std_logic_vector(4 downto 0);
+    begin
+        v_SUM := r_RE_UCKLS + r_FE_UCKLS;
+        w_UCLKS(0) <= v_SUM(0);
+        w_UCLKS(1) <= v_SUM(3);
+        w_UCLKS(2) <= v_SUM(4);
+    end process;
 
-	process (i_EN, w_TOGGLE)
-	begin
-
-		if i_EN = '0' then
-			r_UCLKS <= (others => '0');
-		elsif rising_edge(w_TOGGLE) then
-			r_UCLKS <= r_UCLKS + 1;
-		end if;
-
-	end process;
-
-	w_TOGGLE <= r_RE_CLEAR xor r_FE_CLEAR;
-
-	o_RX_CLK <= r_UCLKS(0);
-	o_TX_CLK <= r_UCLKS(4) when i_U2X = '0' else
-		r_UCLKS(3);
+	o_RX_CLK <= w_UCLKS(0);
+	o_TX_CLK <= w_UCLKS(2) when i_U2X = '0' else
+		w_UCLKS(1);
 
 end RTL;
