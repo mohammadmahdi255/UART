@@ -25,6 +25,7 @@ ARCHITECTURE behavior OF UART_TB IS
          o_TX_RDY : OUT  std_logic;
          i_RX_CLR : IN  std_logic;
          o_RX_RDY : OUT  std_logic;
+         o_RX_DV : OUT  std_logic;
          i_TX_DATA : IN  std_logic_vector(WIDTH-1 downto 0);
          o_RX_DATA : OUT  std_logic_vector(WIDTH-1 downto 0);
          o_TX_SDO : OUT  std_logic;
@@ -50,6 +51,7 @@ ARCHITECTURE behavior OF UART_TB IS
  	--Outputs
    signal o_TX_RDY : std_logic;
    signal o_RX_RDY : std_logic;
+   signal o_RX_DV  : std_logic;
    signal o_RX_DATA : std_logic_vector(WIDTH-1 downto 0);
    signal o_TX_SDO : std_logic;
 
@@ -74,6 +76,7 @@ BEGIN
           o_TX_RDY => o_TX_RDY,
           i_RX_CLR => i_RX_CLR,
           o_RX_RDY => o_RX_RDY,
+          o_RX_DV => o_RX_DV,
           i_TX_DATA => i_TX_DATA,
           o_RX_DATA => o_RX_DATA,
           o_TX_SDO => o_TX_SDO,
@@ -99,7 +102,7 @@ BEGIN
 	  i_EN <= '1';
 	  i_U2X <= '1';
 	  i_UCD <= x"0000";
-	  i_PARITY_EN <= '1';
+	  i_PARITY_EN <= '0';
 	  
 	  wait for 100 ns;
 	  i_TX_STR <= '1';
@@ -107,6 +110,10 @@ BEGIN
 	  
 	  wait for 20 ns;
 	  i_TX_STR <= '0';
+	  i_TX_DATA <= x"AD43";
+	  
+	  wait until o_TX_RDY = '1';
+	  i_TX_STR <= '1';
 
       wait;
    end process;
