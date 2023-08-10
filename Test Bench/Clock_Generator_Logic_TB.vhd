@@ -14,7 +14,7 @@ ARCHITECTURE behavior OF Clock_Generator_Logic_TB IS
          i_EN : IN  std_logic;
          i_CLK : IN  std_logic;
          i_U2X : IN  std_logic;
-         i_UBRR : IN  std_logic_vector(11 downto 0);
+         i_UCD : IN  std_logic_vector(15 downto 0);
          o_TX_CLK : OUT  std_logic;
          o_RX_CLK : OUT  std_logic
         );
@@ -25,7 +25,7 @@ ARCHITECTURE behavior OF Clock_Generator_Logic_TB IS
    signal i_EN : std_logic := '0';
    signal i_CLK : std_logic := '0';
    signal i_U2X : std_logic := '0';
-   signal i_UBRR : std_logic_vector(11 downto 0) := (others => '0');
+   signal i_UCD : std_logic_vector(15 downto 0) := (others => '0');
 
  	--Outputs
    signal o_TX_CLK : std_logic;
@@ -41,7 +41,7 @@ BEGIN
           i_EN => i_EN,
           i_CLK => i_CLK,
           i_U2X => i_U2X,
-          i_UBRR => i_UBRR,
+          i_UCD => i_UCD,
           o_TX_CLK => o_TX_CLK,
           o_RX_CLK => o_RX_CLK
         );
@@ -59,8 +59,9 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for i_CLK_period*10;
+--      wait for i_CLK_period*10;
 	  i_EN <= '1';
+	  i_UCD <= x"0000";
 	  i_U2X <= '1';
 
 
