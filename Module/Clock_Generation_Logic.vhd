@@ -21,10 +21,10 @@ architecture RTL of Clock_Generation_Logic is
 
 	signal r_RE_CLEAR : std_logic                     := '0';
 	signal r_FE_CLEAR : std_logic                     := '0';
-	
+
 	signal r_RE_UCKLS : std_logic_vector(4 downto 0)  := (others => '0');
 	signal r_FE_UCKLS : std_logic_vector(4 downto 0)  := (others => '0');
-	
+
 	signal w_UCLKS    : std_logic_vector(2 downto 0)  := (others => '0');
 
 begin
@@ -51,7 +51,7 @@ begin
 				else
 					v_RE_COUNT := v_RE_COUNT + 1;
 				end if;
-				
+
 			end if;
 
 			if falling_edge(i_CLK) then
@@ -69,15 +69,15 @@ begin
 			end if;
 		end if;
 	end process Clock_Logic;
-	
-	process(r_RE_UCKLS, r_FE_UCKLS)
-        variable v_SUM : std_logic_vector(4 downto 0);
-    begin
-        v_SUM := r_RE_UCKLS + r_FE_UCKLS;
-        w_UCLKS(0) <= v_SUM(0);
-        w_UCLKS(1) <= v_SUM(3);
-        w_UCLKS(2) <= v_SUM(4);
-    end process;
+
+	process (r_RE_UCKLS, r_FE_UCKLS)
+		variable v_SUM : std_logic_vector(4 downto 0);
+	begin
+		v_SUM := r_RE_UCKLS + r_FE_UCKLS;
+		w_UCLKS(0) <= v_SUM(0);
+		w_UCLKS(1) <= v_SUM(3);
+		w_UCLKS(2) <= v_SUM(4);
+	end process;
 
 	o_RX_CLK <= w_UCLKS(0);
 	o_TX_CLK <= w_UCLKS(2) when i_U2X = '0' else

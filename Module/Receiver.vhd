@@ -72,7 +72,7 @@ begin
 				when IDLE | START_BIT =>
 					r_BIT_COUNT <= 0;
 
-				when DATA_BITS        =>
+				when DATA_BITS =>
 					if r_CYCLE_COUNT = 7 - 4 * to_int(i_U2X) then
 						r_RX_DATA   <= r_RX_DATA(r_RX_DATA'left - 1 downto 0) & i_RX_SDI;
 						r_BIT_COUNT <= r_BIT_COUNT + 1;

@@ -51,7 +51,7 @@ begin
 			case r_PR_ST is
 				when IDLE | STOP_BIT =>
 					if i_TX_STR = '1' then
-						r_TX_DATA <= i_TX_DATA;
+						r_TX_DATA   <= i_TX_DATA;
 						r_BIT_COUNT <= 0;
 					end if;
 
