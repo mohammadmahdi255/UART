@@ -62,8 +62,8 @@ begin
 		-- hold reset state for 100 ns.
 		--      wait for i_CLK_period*10;
 		i_EN  <= '1';
-		i_UCD <= x"0006";
-		i_U2X <= '1';
+		i_UCD <= x"0004";
+		i_U2X <= '0';
 
 		wait for i_CLK_period * 10;
 

@@ -109,7 +109,7 @@ begin
 		i_TX_STR  <= '1';
 		i_TX_DATA <= x"F8DA";
 
-		wait for 20 ns;
+		wait for 30 ns;
 		i_TX_STR  <= '0';
 		i_TX_DATA <= x"AD43";
 

@@ -1,0 +1,32 @@
+
+# PlanAhead Generated physical constraints 
+
+NET "i_TX_DATA[7]" LOC = P172;
+NET "i_TX_DATA[6]" LOC = P175;
+NET "i_TX_DATA[5]" LOC = P176;
+NET "i_TX_DATA[4]" LOC = P178;
+NET "i_TX_DATA[3]" LOC = P180;
+NET "i_TX_DATA[2]" LOC = P181;
+NET "i_TX_DATA[1]" LOC = P182;
+NET "i_TX_DATA[0]" LOC = P183;
+
+NET "o_RX_DATA[7]" LOC = P71;
+NET "o_RX_DATA[6]" LOC = P68;
+NET "o_RX_DATA[5]" LOC = P67;
+NET "o_RX_DATA[4]" LOC = P65;
+NET "o_RX_DATA[3]" LOC = P64;
+NET "o_RX_DATA[2]" LOC = P63;
+NET "o_RX_DATA[1]" LOC = P62;
+NET "o_RX_DATA[0]" LOC = P61;
+
+NET "i_CLK" LOC = P184;
+
+NET "i_EN" LOC = P161;
+NET "i_RX_CLR" LOC = P162;
+NET "i_TX_STR" LOC = P165;
+NET "o_RX_DV" LOC = P42;
+NET "o_RX_RDY" LOC = P43;
+NET "o_TX_RDY" LOC = P44;
+
+NET "i_RX_SDI" LOC = P155;
+NET "o_TX_SDO" LOC = P156;
