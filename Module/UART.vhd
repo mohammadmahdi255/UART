@@ -19,9 +19,12 @@ entity UART is
 
 		i_TX_STR    : in  std_logic;
 		o_TX_RDY    : out std_logic;
+		
+		-- RX Control and status pins
 		i_RX_CLR    : in  std_logic;
 		o_RX_RDY    : out std_logic;
 		o_RX_DV     : out std_logic;
+		o_RX_IDLE   : out std_logic;
 
 		i_TX_DATA   : in  std_logic_vector (WIDTH - 1 downto 0);
 		o_RX_DATA   : out std_logic_vector (WIDTH - 1 downto 0);
@@ -83,6 +86,7 @@ begin
 		o_RX_DATA   => o_RX_DATA,
 		o_RX_RDY    => o_RX_RDY,
 		o_RX_DV     => o_RX_DV,
+		o_RX_IDLE   => o_RX_IDLE,
 		i_RX_SDI    => i_RX_SDI
 		);
 
