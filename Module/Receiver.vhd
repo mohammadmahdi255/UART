@@ -21,7 +21,6 @@ entity Receiver is
 		i_RX_CLR    : in  std_logic;
 		o_RX_RDY    : out std_logic;
 		o_RX_DV     : out std_logic;
-		o_RX_IDLE   : out std_logic;
 		
 		i_RX_SDI    : in  std_logic
 	);
@@ -39,8 +38,6 @@ architecture RTL of Receiver is
 	signal r_VALID_DATA  : std_logic                            := '0';
 
 begin
-
-	o_RX_IDLE <= '1' when r_PR_ST = IDLE else '0';
 
 	Sequential : process (i_EN, i_RX_CLK)
 	begin

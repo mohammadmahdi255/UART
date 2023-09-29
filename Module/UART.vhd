@@ -24,7 +24,6 @@ entity UART is
 		i_RX_CLR    : in  std_logic;
 		o_RX_RDY    : out std_logic;
 		o_RX_DV     : out std_logic;
-		o_RX_IDLE   : out std_logic;
 
 		i_TX_DATA   : in  std_logic_vector (WIDTH - 1 downto 0);
 		o_RX_DATA   : out std_logic_vector (WIDTH - 1 downto 0);
@@ -86,7 +85,6 @@ begin
 		o_RX_DATA   => o_RX_DATA,
 		o_RX_RDY    => o_RX_RDY,
 		o_RX_DV     => o_RX_DV,
-		o_RX_IDLE   => o_RX_IDLE,
 		i_RX_SDI    => i_RX_SDI
 		);
 
